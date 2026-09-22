@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İyi ki Doğdun Halbukem</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -13,8 +13,8 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a001a, #4a0e4e, #2b052d);
+            font-family: 'Montserrat', sans-serif;
+            background: #090112;
             color: #fff;
             height: 100vh;
             display: flex;
@@ -24,195 +24,294 @@
             position: relative;
         }
 
+        /* Arka Plan Hareketli Gradient Işıklar */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 41, 117, 0.25) 0%, rgba(112, 0, 255, 0) 70%);
+            top: -200px;
+            left: -200px;
+            animation: moveGlow 10s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            bottom: -250px;
+            right: -250px;
+            animation: moveGlow 12s infinite alternate ease-in-out reverse;
+            z-index: 1;
+        }
+
+        @keyframes moveGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 100px) scale(1.2); }
+        }
+
         /* Giriş Ekranı */
         #login-screen {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(15, 2, 18, 0.95);
+            background: rgba(9, 1, 18, 0.92);
+            backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
-            transition: opacity 0.8s ease;
+            z-index: 20;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 105, 180, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 105, 180, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 105, 180, 0.3);
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .login-card h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
+            font-size: 3.8rem;
             color: #ff65b8;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 101, 184, 0.6);
         }
 
         .login-card p {
-            margin-bottom: 20px;
-            color: #ddd;
+            margin-bottom: 25px;
+            color: #d1c4e9;
             font-size: 0.95rem;
+            letter-spacing: 0.5px;
         }
 
         .login-card input {
             width: 100%;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid #ff65b8;
-            border-radius: 30px;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 101, 184, 0.5);
+            border-radius: 50px;
             color: #fff;
             font-size: 1rem;
             outline: none;
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .login-card input:focus {
+            border-color: #ff65b8;
+            box-shadow: 0 0 15px rgba(255, 101, 184, 0.4);
         }
 
         .login-card input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .login-card button {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            padding: 14px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
             border: none;
-            border-radius: 30px;
+            border-radius: 50px;
             color: #fff;
             font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 65, 108, 0.5);
             transition: 0.3s;
         }
 
         .login-card button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 65, 108, 0.8);
         }
 
         .error-msg {
-            color: #ff6b6b;
+            color: #ff5252;
             font-size: 0.85rem;
-            margin-top: 10px;
+            margin-top: 15px;
             display: none;
+            animation: shake 0.4s ease;
         }
 
-        /* Doğum Günü Ana İçerik */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Ana İçerik Alanı */
         #main-content {
             display: none;
             text-align: center;
-            z-index: 5;
-            padding: 20px;
-            max-width: 600px;
-            animation: fadeIn 1.5s ease;
+            z-index: 10;
+            padding: 30px;
+            max-width: 650px;
+            width: 90%;
+            animation: zoomIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 40px;
+            border-radius: 35px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 105, 180, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 105, 180, 0.1);
         }
 
         h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: #ff758c;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(255, 117, 140, 0.5);
+            margin-bottom: 5px;
+            text-shadow: 0 0 25px rgba(255, 117, 140, 0.6);
+            animation: glowText 3s infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 15px rgba(255, 117, 140, 0.4); }
+            100% { text-shadow: 0 0 30px rgba(255, 117, 140, 0.9); }
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.15rem;
+            margin-bottom: 25px;
             color: #f8b195;
-        }
-
-        .message-box {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            line-height: 1.6;
-            font-size: 1.05rem;
-            color: #eee;
-        }
-
-        /* Şarkı Bilgisi / Kontrolü */
-        .music-credit {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #ffb6c1;
+            font-weight: 300;
             letter-spacing: 1px;
         }
 
-        /* Arka Plan Kalpler */
-        .heart {
-            position: absolute;
-            background: rgba(255, 105, 180, 0.3);
-            width: 20px;
-            height: 20px;
-            transform: rotate(45deg);
-            animation: floatUp 6s linear infinite;
-            z-index: 1;
+        .message-box {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #e0d4f7;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 20px;
+            border-left: 3px solid #ff65b8;
         }
 
-        .heart::before, .heart::after {
+        /* Müzik Oynatıcı Widget Görseli */
+        .music-player-ui {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            gap: 12px;
+        }
+
+        .vinyl {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #ff65b8;
+            border-radius: 50%;
+            background: #111;
+            position: relative;
+            animation: spin 3s linear infinite;
+        }
+
+        .vinyl::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 105, 180, 0.3);
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             border-radius: 50%;
         }
 
-        .heart::before { top: -10px; left: 0; }
-        .heart::after { left: -10px; top: 0; }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .music-info {
+            font-size: 0.9rem;
+            color: #ffb6c1;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Arka Plan Uçuşan Kalpler ve Işıltılar */
+        .particle {
+            position: absolute;
+            background: rgba(255, 105, 180, 0.4);
+            pointer-events: none;
+            border-radius: 50%;
+            animation: floatUp 7s linear infinite;
+            z-index: 2;
+        }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(45deg) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) rotate(45deg) scale(1.2); opacity: 0; }
+            0% { transform: translateY(105vh) scale(0.4); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Arka Plan Işık Efektleri -->
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
     <!-- Giriş Ekranı -->
     <div id="login-screen">
         <div class="login-card">
             <h2>Halbukem</h2>
-            <p>Bu özel siteye giriş yapmak için anahtar kelimeyi gir:</p>
-            <input type="password" id="key-input" placeholder="Anahtar Kelime (Key)">
-            <button onclick="checkKey()">Giriş Yap</button>
-            <div id="error" class="error-msg">Yanlış key! İpucu: halbukem</div>
+            <p>Sonsuzluğa açılan kapı için anahtarı gir</p>
+            <input type="password" id="key-input" placeholder="Anahtar Kelime">
+            <button onclick="checkKey()">İçeri Gir</button>
+            <div id="error" class="error-msg">Geçersiz key! İpucu: halbukem</div>
         </div>
     </div>
 
-    <!-- Ortak Çalacak Şarkı Alanı -->
-    <!-- 'src' kısmına kendi şarkı dosyanın adını (örn: sarkim.mp3) yazmalısın. -->
+    <!-- Herkesin Ortak Dinleyeceği Şarkı Alanı -->
+    <!-- src kısmına kendi müzik dosyanın adını yaz (Örn: sarkim.mp3) -->
     <audio id="bg-music" loop>
         <source src="sarkim.mp3" type="audio/mpeg">
         Tarayıcınız ses etiketini desteklemiyor.
     </audio>
 
-    <!-- Ana İçerik -->
+    <!-- Ana Romantik İçerik -->
     <div id="main-content">
-        <h1>İyi ki Doğdun Halbukem!</h1>
-        <div class="subtitle">Bütün bu şehir ve sokaklar senin adına güzel...</div>
-        <div class="message-box">
-            <p>Hayatımın en güzel tesadüfü, karanlıklarıma ışık olanım... İyi ki doğdun, iyi ki varsın. Seninle her an bir başka güzel, her sokak bir başka anlamlı. Gönlümün ta kendisi, iyi ki benimlesin!</p>
+        <div class="content-card">
+            <h1>İyi ki Doğdun Halbukem</h1>
+            <div class="subtitle">Karanlıklarıma ışık olan en güzel tesadüf...</div>
+            <div class="message-box">
+                <p>Gönlümün ta kendisi, hayatımın en özel notası... İyi ki doğdun, iyi ki varsın. Seninle her an bir başka güzel, her sokak bir başka anlamlı. Bu özel gününde tüm kalbimle yanındayım!</p>
+            </div>
+            <div class="music-player-ui">
+                <div class="vinyl"></div>
+                <div class="music-info">Çalıyor: Senin Şarkın</div>
+            </div>
         </div>
-        <div class="music-credit">🎶 Çalan Parça: Chef Bi - KİMSİN</div>
     </div>
 
     <script>
@@ -224,37 +323,45 @@
             const music = document.getElementById('bg-music');
 
             if (inputVal === 'halbukem') {
-                // Giriş ekranını yumuşakça kapat
+                // Giriş ekranını animasyonla yok et
                 loginScreen.style.opacity = '0';
+                loginScreen.style.transform = 'scale(1.1)';
                 setTimeout(() => {
                     loginScreen.style.display = 'none';
                     mainContent.style.display = 'block';
                 }, 800);
 
-                // Kim girerse girsin eklediğin şarkıyı otomatik başlatır
+                // Şarkıyı kim girerse girsin otomatik başlat
                 music.play().catch(e => {
-                    console.log("Tarayıcı otomatik oynatmayı engelledi, kullanıcı etkileşimi bekleniyor.", e);
+                    console.log("Tarayıcı otomatik oynatmayı engelledi:", e);
                 });
 
-                // Arka plan kalplerini başlat
-                startHearts();
+                // Arka plan animasyonlarını (parçacıkları) başlat
+                startParticles();
             } else {
                 errorDiv.style.display = 'block';
+                setTimeout(() => { errorDiv.style.display = 'none'; }, 2500);
             }
         }
 
-        function startHearts() {
+        function startParticles() {
             setInterval(() => {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.style.left = Math.random() * window.innerWidth + 'px';
-                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                document.body.appendChild(heart);
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 10 + 5 + 'px';
+                particle.style.width = size;
+                particle.style.height = size;
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particle.style.background = Math.random() > 0.5 ? 'rgba(255, 105, 180, 0.5)' : 'rgba(186, 85, 211, 0.5)';
+                
+                document.body.appendChild(particle);
 
                 setTimeout(() => {
-                    heart.remove();
-                }, 6000);
-            }, 400);
+                    particle.remove();
+                }, 7000);
+            }, 300);
         }
     </script>
 </body>
