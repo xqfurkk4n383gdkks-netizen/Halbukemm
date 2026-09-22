@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İyi ki Doğdun Halbukem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a001a, #4a0e4e, #2b052d);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Giriş Ekranı */
+        #login-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 2, 18, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 0.8s ease;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 105, 180, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-card h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: #ff65b8;
+            margin-bottom: 20px;
+        }
+
+        .login-card p {
+            margin-bottom: 20px;
+            color: #ddd;
+            font-size: 0.95rem;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ff65b8;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .login-card input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .login-card button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+            transition: 0.3s;
+        }
+
+        .login-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Doğum Günü Ana İçerik */
+        #main-content {
+            display: none;
+            text-align: center;
+            z-index: 5;
+            padding: 20px;
+            max-width: 600px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #ff758c;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 117, 140, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #f8b195;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            line-height: 1.6;
+            font-size: 1.05rem;
+            color: #eee;
+        }
+
+        /* Şarkı Bilgisi / Kontrolü */
+        .music-credit {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #ffb6c1;
+            letter-spacing: 1px;
+        }
+
+        /* Arka Plan Kalpler */
+        .heart {
+            position: absolute;
+            background: rgba(255, 105, 180, 0.3);
+            width: 20px;
+            height: 20px;
+            transform: rotate(45deg);
+            animation: floatUp 6s linear infinite;
+            z-index: 1;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 105, 180, 0.3);
+            border-radius: 50%;
+        }
+
+        .heart::before { top: -10px; left: 0; }
+        .heart::after { left: -10px; top: 0; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(45deg) scale(0.5); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(45deg) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Giriş Ekranı -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h2>Halbukem</h2>
+            <p>Bu özel siteye giriş yapmak için anahtar kelimeyi gir:</p>
+            <input type="password" id="key-input" placeholder="Anahtar Kelime (Key)">
+            <button onclick="checkKey()">Giriş Yap</button>
+            <div id="error" class="error-msg">Yanlış key! İpucu: halbukem</div>
+        </div>
+    </div>
+
+    <!-- Ortak Çalacak Şarkı Alanı -->
+    <!-- 'src' kısmına kendi şarkı dosyanın adını (örn: sarkim.mp3) yazmalısın. -->
+    <audio id="bg-music" loop>
+        <source src="sarkim.mp3" type="audio/mpeg">
+        Tarayıcınız ses etiketini desteklemiyor.
+    </audio>
+
+    <!-- Ana İçerik -->
+    <div id="main-content">
+        <h1>İyi ki Doğdun Halbukem!</h1>
+        <div class="subtitle">Bütün bu şehir ve sokaklar senin adına güzel...</div>
+        <div class="message-box">
+            <p>Hayatımın en güzel tesadüfü, karanlıklarıma ışık olanım... İyi ki doğdun, iyi ki varsın. Seninle her an bir başka güzel, her sokak bir başka anlamlı. Gönlümün ta kendisi, iyi ki benimlesin!</p>
+        </div>
+        <div class="music-credit">🎶 Çalan Parça: Chef Bi - KİMSİN</div>
+    </div>
+
+    <script>
+        function checkKey() {
+            const inputVal = document.getElementById('key-input').value.trim().toLowerCase();
+            const errorDiv = document.getElementById('error');
+            const loginScreen = document.getElementById('login-screen');
+            const mainContent = document.getElementById('main-content');
+            const music = document.getElementById('bg-music');
+
+            if (inputVal === 'halbukem') {
+                // Giriş ekranını yumuşakça kapat
+                loginScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }, 800);
+
+                // Kim girerse girsin eklediğin şarkıyı otomatik başlatır
+                music.play().catch(e => {
+                    console.log("Tarayıcı otomatik oynatmayı engelledi, kullanıcı etkileşimi bekleniyor.", e);
+                });
+
+                // Arka plan kalplerini başlat
+                startHearts();
+            } else {
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 400);
+        }
+    </script>
+</body>
+</html>
