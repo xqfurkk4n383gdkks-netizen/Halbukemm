@@ -51,7 +51,6 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Farklı paneller için boyut ayarları */
         #login-section .glass-card, #admin-section .glass-card {
             max-width: 350px;
             padding: 30px;
@@ -186,16 +185,16 @@
 <div id="admin-section" class="glass-container">
     <div class="glass-card">
         <h2 class="neon-title" style="color: #00f0ff; text-shadow: 0 0 10px #00f0ff;">⚙️ Admin Paneli</h2>
-        <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Direkt fotoğraf ve mp3 bağlantılarını (URL) buraya yapıştır.</p>
+        <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Fotoğraf ve mp3 bağlantılarını (URL) buraya yapıştır.</p>
         
         <span class="admin-label">Fotoğraf Linki:</span>
-        <input type="text" id="admin-photo" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="https://.../foto.jpg">
+        <input type="text" id="admin-photo" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="Resim linki ekle...">
         
         <span class="admin-label">Şarkı Linki (.mp3):</span>
-        <input type="text" id="admin-song" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="https://.../sarki.mp3">
+        <input type="text" id="admin-song" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="Mp3 linki ekle...">
         
-        <button class="glowing-btn" style="border-color:#00f0ff; box-shadow: 0 0 15px #00f0ff;" onclick="saveAdminSettings()">Ayarları Kaydet</button>
-        <button class="glowing-btn" style="border-color:#555; box-shadow: none;" onclick="switchScreen('admin-section', 'login-section')">Geri Dön</button>
+        <button class="glowing-btn" style="border-color:#00f0ff; box-shadow: 0 0 15px #00f0ff;" onclick="saveAdminSettings()">Kaydet</button>
+        <button class="glowing-btn" style="border-color:#555; box-shadow: none;" onclick="switchScreen('admin-section', 'login-section')">Geri</button>
     </div>
 </div>
 
@@ -203,7 +202,7 @@
 <div id="main-content" class="glass-container">
     <div class="glass-card">
         <div class="photo-frame">
-            <img id="gf-photo" src="https://via.placeholder.com/400x400/1a0010/ff2a5f?text=Fotograf+Yok" alt="Sevgilim">
+            <img id="gf-photo" src="" alt="Sevgilim">
         </div>
         <h1>İyi Ki Doğdun Sevgilim!</h1>
         <p class="message">Hayatıma girdiğin günden beri her şey çok daha güzel. Birlikte nice güzel yaşlara, seni çok seviyorum! ❤️</p>
@@ -225,34 +224,30 @@
         const keyInput = document.getElementById('secret-key').value.trim().toLowerCase();
         const errorMsg = document.getElementById('error-msg');
         
-        if (keyInput === "admin") {
-            // Admin Paneline Geçiş
-            document.getElementById('secret-key').value = ''; // Kutuyu temizle
+        // ADMIN ŞİFRESİ BURADA: wedzx
+        if (keyInput === "wedzx") {
+            document.getElementById('secret-key').value = ''; 
             switchScreen('login-section', 'admin-section');
             
+        // KIZ ARKADAŞININ ŞİFRESİ BURADA: halbukem aşkım
         } else if (keyInput === "halbukem aşkım") {
-            // Doğru Şifre - Kutlama Ekranına Geçiş
             
-            // LocalStorage'dan ayarları al, yoksa varsayılan klasör içi dosyalara bak
-            const savedPhoto = localStorage.getItem('halbukem_photo') || 'foto.jpg';
-            const savedSong = localStorage.getItem('halbukem_song') || 'sarki.mp3';
+            const savedPhoto = localStorage.getItem('halbukem_photo') || 'https://via.placeholder.com/400x400/1a0010/ff2a5f?text=Fotograf+Yok';
+            const savedSong = localStorage.getItem('halbukem_song') || '';
             
-            // Kayıtlı linkleri HTML içine yerleştir
             document.getElementById('gf-photo').src = savedPhoto;
             document.getElementById('bg-music-source').src = savedSong;
             
             const audio = document.getElementById('bg-music');
-            audio.load(); // Yeni şarkı kaynağını yükle
+            audio.load(); 
             
             switchScreen('login-section', 'main-content');
             
-            // Müzik başlatma
             setTimeout(() => {
                 audio.play().catch(e => console.log("Otomatik oynatma engellendi. Ekrana tıklamak gerekebilir."));
             }, 800);
             
         } else {
-            // Hatalı Şifre
             errorMsg.style.opacity = '1';
             setTimeout(() => { errorMsg.style.opacity = '0'; }, 3000);
         }
@@ -265,7 +260,7 @@
         localStorage.setItem('halbukem_photo', photoUrl);
         localStorage.setItem('halbukem_song', songUrl);
         
-        alert("Ayarlar bu cihaza başarıyla kaydedildi! Şimdi sevgilinin şifresiyle giriş yapabilirsin.");
+        alert("Başarıyla kaydedildi! Artık 'halbukem aşkım' şifresiyle giriş yapıldığında bu ayarlar görünecek.");
         switchScreen('admin-section', 'login-section');
     }
 
@@ -303,22 +298,22 @@
     class Heart {
         constructor() {
             this.reset();
-            this.y = Math.random() * height; // İlk açılışta ekrana dağılmış olsunlar
+            this.y = Math.random() * height; 
         }
         reset() {
             this.x = Math.random() * width;
-            this.y = height + (Math.random() * 200 + 50); // Aşağıdan doğarlar
+            this.y = height + (Math.random() * 200 + 50); 
             this.size = Math.random() * 15 + 10;
             this.speed = Math.random() * 1.5 + 0.5;
             this.opacity = Math.random() * 0.5 + 0.2;
-            this.sway = Math.random() * Math.PI * 2; // Sağa sola salınım için rastgele başlangıç
+            this.sway = Math.random() * Math.PI * 2; 
         }
         update() {
             this.y -= this.speed;
-            this.x += Math.sin(this.y * 0.01 + this.sway) * 0.8; // Hafifçe sağa sola sallanarak çıkma
+            this.x += Math.sin(this.y * 0.01 + this.sway) * 0.8; 
             
             if (this.y < -50) {
-                this.reset(); // Ekrandan çıkınca aşağıdan tekrar başlat
+                this.reset(); 
             }
         }
         draw() {
@@ -332,7 +327,6 @@
         }
     }
 
-    // 40 adet kalp oluştur
     for (let i = 0; i < 40; i++) {
         hearts.push(new Heart());
     }
