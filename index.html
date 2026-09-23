@@ -51,7 +51,7 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        #login-section .glass-card {
+        #login-section .glass-card, #admin-section .glass-card {
             max-width: 350px;
             padding: 30px;
         }
@@ -66,6 +66,8 @@
             margin-top: 0;
             color: #fff;
             text-shadow: 0 0 10px #ff2a5f, 0 0 20px #ff2a5f;
+            cursor: pointer;
+            user-select: none;
         }
 
         .key-input {
@@ -86,7 +88,7 @@
         .key-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-
+        
         .glowing-btn { 
             padding: 12px 35px; 
             font-size: 1.1rem; 
@@ -105,6 +107,15 @@
             text-shadow: 0 0 10px #fff;
         }
 
+        .admin-label {
+            font-size: 0.9rem;
+            color: #ffb5c6;
+            text-align: left;
+            width: 90%;
+            margin: 0 auto 5px;
+            display: block;
+        }
+
         #error-msg {
             color: #ff4772;
             font-size: 0.9rem;
@@ -113,10 +124,11 @@
             transition: opacity 0.3s;
         }
 
-        #main-content {
+        #main-content, #admin-section {
             opacity: 0;
             visibility: hidden;
             z-index: 5;
+            position: absolute;
         }
 
         .photo-frame {
@@ -161,6 +173,7 @@
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
+            display: none;
         }
     </style>
 </head>
@@ -171,7 +184,8 @@
 <!-- GİRİŞ EKRANI -->
 <div id="login-section" class="glass-container">
     <div class="glass-card">
-        <h2 class="neon-title">Özel Alan</h2>
+        <!-- 3 KERE TIKLANINCA ADMİN PANELİNİ AÇACAK BAŞLIK -->
+        <h2 class="neon-title" onclick="triggerAdminPanel()">Özel Alan</h2>
         <p style="font-size: 0.95rem; color: #ccc;">Bu siteye girmek için doğru anahtarı girmelisin.</p>
         <input type="text" id="secret-key" class="key-input" placeholder="Anahtar Kelime..." onkeypress="handleEnter(event)">
         <button class="glowing-btn" onclick="checkKey()">Kilidi Aç 🗝️</button>
@@ -179,44 +193,121 @@
     </div>
 </div>
 
-<!-- KUTLAMA İÇERİĞİ -->
+<!-- GİZLİ ADMİN PANELİ -->
+<div id="admin-section" class="glass-container">
+    <div class="glass-card">
+        <h2 class="neon-title" style="color: #00f0ff; text-shadow: 0 0 10px #00f0ff;">⚙️ Admin Paneli</h2>
+        <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px;">İstediğin fotoğrafın ve Spotify şarkısının linkini yapıştır.</p>
+        
+        <span class="admin-label">Fotoğraf Linki (URL):</span>
+        <input type="text" id="admin-photo-input" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="https://.../foto.jpg">
+        
+        <span class="admin-label">Spotify Şarkı Linki:</span>
+        <input type="text" id="admin-spotify-input" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="https://open.spotify.com/track/...">
+        
+        <button class="glowing-btn" style="border-color:#00f0ff; box-shadow: 0 0 15px #00f0ff;" onclick="saveAdminSettings()">Kaydet</button>
+        <button class="glowing-btn" style="border-color:#555; box-shadow: none;" onclick="switchScreen('admin-section', 'login-section')">Geri Dön</button>
+    </div>
+</div>
+
+<!-- KUTLAMA İÇERİĞİ (SEVGİLİNİN GÖRECEĞİ YER) -->
 <div id="main-content" class="glass-container">
     <div class="glass-card">
         <div class="photo-frame">
-            <!-- FOTOĞRAF DOSYA ADI BURADA (foto.jpg yaptığından emin ol) -->
-            <img src="foto.jpg" alt="Sevgilim">
+            <img id="gf-photo" src="" alt="Sevgilim">
         </div>
         <h1>İyi Ki Doğdun Sevgilim!</h1>
         <p class="message">Hayatıma girdiğin günden beri her şey çok daha güzel. Birlikte nice güzel yaşlara, seni çok seviyorum! ❤️</p>
         
-        <!-- SPOTIFY GÖMÜLÜ ŞARKI LINKI -->
         <div id="spotify-container">
-            <iframe src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator&theme=0" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <iframe id="spotify-player" src="" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
     </div>
 </div>
 
 <script>
+    // Sayfa açıldığında daha önceden kaydedilmiş verileri kutulara doldur
+    window.onload = () => {
+        document.getElementById('admin-photo-input').value = localStorage.getItem('halbukem_custom_photo') || '';
+        document.getElementById('admin-spotify-input').value = localStorage.getItem('halbukem_custom_spotify') || '';
+    };
+
+    // "Özel Alan" yazısına 3 kere üst üste tıklama sayacı
+    let clickCount = 0;
+    function triggerAdminPanel() {
+        clickCount++;
+        if (clickCount >= 3) {
+            clickCount = 0;
+            switchScreen('login-section', 'admin-section');
+        }
+        // 1 saniye içinde basılmazsa sayacı sıfırla
+        setTimeout(() => { clickCount = 0; }, 1000);
+    }
+
+    function saveAdminSettings() {
+        const photoUrl = document.getElementById('admin-photo-input').value.trim();
+        const spotifyUrl = document.getElementById('admin-spotify-input').value.trim();
+
+        // Spotify linkini embed formatına çevir
+        let finalSpotify = "";
+        if (spotifyUrl) {
+            const trackMatch = spotifyUrl.match(/track\/([a-zA-Z0-9]+)/);
+            if (trackMatch && trackMatch[1]) {
+                finalSpotify = `https://open.spotify.com/embed/track/${trackMatch[1]}?utm_source=generator&theme=0`;
+            } else {
+                finalSpotify = spotifyUrl;
+            }
+        }
+
+        // Bilgileri kalıcı olarak kaydet
+        localStorage.setItem('halbukem_custom_photo', photoUrl);
+        localStorage.setItem('halbukem_custom_spotify', finalSpotify);
+
+        alert("Başarıyla kaydedildi! Artık şifre girildiğinde bunlar görünecek.");
+        switchScreen('admin-section', 'login-section');
+    }
+
     function checkKey() {
         const keyInput = document.getElementById('secret-key').value.trim().toLowerCase();
         const errorMsg = document.getElementById('error-msg');
         
-        // Şifre: halbukem aşkım
+        // Şifre kontrolü
         if (keyInput === "halbukem aşkım") {
-            const loginSection = document.getElementById('login-section');
-            const mainContent = document.getElementById('main-content');
             
-            loginSection.style.opacity = '0';
-            setTimeout(() => {
-                loginSection.style.visibility = 'hidden';
-                mainContent.style.visibility = 'visible';
-                mainContent.style.opacity = '1';
-            }, 800);
+            // Kaydedilmiş fotoğrafı ve şarkıyı yansıt
+            const savedPhoto = localStorage.getItem('halbukem_custom_photo') || 'https://via.placeholder.com/400x400/1a0010/ff2a5f?text=Fotograf+Eklenmemis';
+            const savedSpotify = localStorage.getItem('halbukem_custom_spotify');
+
+            document.getElementById('gf-photo').src = savedPhoto;
+
+            const spotifyContainer = document.getElementById('spotify-container');
+            const spotifyPlayer = document.getElementById('spotify-player');
+
+            if (savedSpotify) {
+                spotifyPlayer.src = savedSpotify;
+                spotifyContainer.style.display = 'block';
+            } else {
+                spotifyContainer.style.display = 'none';
+            }
+
+            switchScreen('login-section', 'main-content');
             
         } else {
             errorMsg.style.opacity = '1';
             setTimeout(() => { errorMsg.style.opacity = '0'; }, 3000);
         }
+    }
+
+    function switchScreen(hideId, showId) {
+        const hideEl = document.getElementById(hideId);
+        const showEl = document.getElementById(showId);
+        
+        hideEl.style.opacity = '0';
+        setTimeout(() => {
+            hideEl.style.visibility = 'hidden';
+            showEl.style.visibility = 'visible';
+            showEl.style.opacity = '1';
+        }, 800);
     }
 
     function handleEnter(e) {
