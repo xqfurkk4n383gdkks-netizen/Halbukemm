@@ -51,7 +51,7 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        #login-section .glass-card, #admin-section .glass-card {
+        #login-section .glass-card {
             max-width: 350px;
             padding: 30px;
         }
@@ -86,13 +86,6 @@
         .key-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
-        
-        /* Dosya seçme butonu için özel stil */
-        input[type="file"] {
-            padding: 8px;
-            text-align: left;
-            font-size: 0.85rem;
-        }
 
         .glowing-btn { 
             padding: 12px 35px; 
@@ -112,16 +105,6 @@
             text-shadow: 0 0 10px #fff;
         }
 
-        .admin-label {
-            font-size: 0.9rem;
-            color: #ffb5c6;
-            text-align: left;
-            width: 90%;
-            margin: 0 auto;
-            display: block;
-            margin-bottom: 5px;
-        }
-
         #error-msg {
             color: #ff4772;
             font-size: 0.9rem;
@@ -130,7 +113,7 @@
             transition: opacity 0.3s;
         }
 
-        #main-content, #admin-section {
+        #main-content {
             opacity: 0;
             visibility: hidden;
             z-index: 5;
@@ -175,7 +158,6 @@
 
         #spotify-container {
             margin-top: 20px;
-            display: none;
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
@@ -191,28 +173,9 @@
     <div class="glass-card">
         <h2 class="neon-title">Özel Alan</h2>
         <p style="font-size: 0.95rem; color: #ccc;">Bu siteye girmek için doğru anahtarı girmelisin.</p>
-        <input type="text" id="secret-key" class="key-input" placeholder="Anahtar Kelime..." onkeypress="handleEnter(event, 'login')">
+        <input type="text" id="secret-key" class="key-input" placeholder="Anahtar Kelime..." onkeypress="handleEnter(event)">
         <button class="glowing-btn" onclick="checkKey()">Kilidi Aç 🗝️</button>
         <p id="error-msg">Hatalı anahtar, tekrar dene!</p>
-    </div>
-</div>
-
-<!-- ADMİN PANELİ EKRANI -->
-<div id="admin-section" class="glass-container">
-    <div class="glass-card">
-        <h2 class="neon-title" style="color: #00f0ff; text-shadow: 0 0 10px #00f0ff;">⚙️ Ayarlar</h2>
-        <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Fotoğrafını galerinden seç, Spotify şarkı linkini yapıştır.</p>
-        
-        <!-- DİREKT FOTOĞRAF SEÇME -->
-        <span class="admin-label">Direkt Fotoğraf Ekle:</span>
-        <input type="file" id="admin-photo-file" class="key-input" accept="image/*" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);">
-        
-        <!-- SPOTIFY LINK -->
-        <span class="admin-label">Spotify Şarkı Linki:</span>
-        <input type="text" id="admin-spotify" class="key-input" style="border-color: #00f0ff; box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);" placeholder="Örn: https://open.spotify.com/track/...">
-        
-        <button class="glowing-btn" style="border-color:#00f0ff; box-shadow: 0 0 15px #00f0ff;" onclick="saveAdminSettings()">Kaydet</button>
-        <button class="glowing-btn" style="border-color:#555; box-shadow: none;" onclick="switchScreen('admin-section', 'login-section')">Geri</button>
     </div>
 </div>
 
@@ -220,14 +183,15 @@
 <div id="main-content" class="glass-container">
     <div class="glass-card">
         <div class="photo-frame">
-            <img id="gf-photo" src="" alt="Sevgilim">
+            <!-- DİKKAT: Yüklediğin fotoğrafın adını tam olarak buraya yaz (.jpg veya .png) -->
+            <img src="foto.jpg" alt="Sevgilim">
         </div>
         <h1>İyi Ki Doğdun Sevgilim!</h1>
         <p class="message">Hayatıma girdiğin günden beri her şey çok daha güzel. Birlikte nice güzel yaşlara, seni çok seviyorum! ❤️</p>
         
-        <!-- SPOTIFY OYNATICI ALANI -->
+        <!-- DİKKAT: Spotify şarkının EMBED (Gömülü) linkini buraya yapıştır -->
         <div id="spotify-container">
-            <iframe id="spotify-player" src="" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            <iframe src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator&theme=0" width="100%" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
     </div>
 </div>
@@ -237,31 +201,17 @@
         const keyInput = document.getElementById('secret-key').value.trim().toLowerCase();
         const errorMsg = document.getElementById('error-msg');
         
-        // ADMIN ŞİFRESİ: wedzx
-        if (keyInput === "wedzx") {
-            document.getElementById('secret-key').value = ''; 
-            switchScreen('login-section', 'admin-section');
+        // KIZ ARKADAŞININ ŞİFRESİ
+        if (keyInput === "halbukem aşkım") {
+            const loginSection = document.getElementById('login-section');
+            const mainContent = document.getElementById('main-content');
             
-        // KIZ ARKADAŞININ ŞİFRESİ: halbukem aşkım
-        } else if (keyInput === "halbukem aşkım") {
-            
-            // Kaydedilmiş fotoğrafı yükle
-            const savedPhoto = localStorage.getItem('halbukem_photo_base64') || 'https://via.placeholder.com/400x400/1a0010/ff2a5f?text=Fotograf+Yok';
-            document.getElementById('gf-photo').src = savedPhoto;
-
-            // Kaydedilmiş Spotify linkini yükle
-            const savedSpotify = localStorage.getItem('halbukem_spotify_url');
-            const spotifyContainer = document.getElementById('spotify-container');
-            const spotifyPlayer = document.getElementById('spotify-player');
-
-            if (savedSpotify) {
-                spotifyPlayer.src = savedSpotify;
-                spotifyContainer.style.display = 'block'; // Şarkı varsa göster
-            } else {
-                spotifyContainer.style.display = 'none'; // Şarkı yoksa gizle
-            }
-            
-            switchScreen('login-section', 'main-content');
+            loginSection.style.opacity = '0';
+            setTimeout(() => {
+                loginSection.style.visibility = 'hidden';
+                mainContent.style.visibility = 'visible';
+                mainContent.style.opacity = '1';
+            }, 800);
             
         } else {
             errorMsg.style.opacity = '1';
@@ -269,62 +219,9 @@
         }
     }
 
-    function saveAdminSettings() {
-        const spotifyInput = document.getElementById('admin-spotify').value.trim();
-        const fileInput = document.getElementById('admin-photo-file');
-
-        // 1. SPOTIFY İŞLEMİ
-        if (spotifyInput) {
-            // Sadece Spotify track ID'sini bulup gömülü (embed) oynatıcı linkine çeviriyoruz
-            const trackMatch = spotifyInput.match(/track\/([a-zA-Z0-9]+)/);
-            if (trackMatch && trackMatch[1]) {
-                const embedUrl = `https://open.spotify.com/embed/track/${trackMatch[1]}?utm_source=generator&theme=0`;
-                localStorage.setItem('halbukem_spotify_url', embedUrl);
-            } else if (spotifyInput.includes('embed')) {
-                // Zaten embed kodu yapıştırıldıysa direkt al
-                localStorage.setItem('halbukem_spotify_url', spotifyInput);
-            }
-        }
-
-        // 2. FOTOĞRAF İŞLEMİ (Dosyadan okuyup kaydetme)
-        if (fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const base64Image = e.target.result;
-                try {
-                    // Fotoğrafı tarayıcı hafızasına kaydet
-                    localStorage.setItem('halbukem_photo_base64', base64Image);
-                    alert("Fotoğraf ve Şarkı başarıyla eklendi! Şimdi 'halbukem aşkım' şifresiyle giriş yapabilirsin.");
-                    switchScreen('admin-section', 'login-section');
-                } catch (error) {
-                    alert("Seçtiğin fotoğrafın boyutu çok büyük (Tarayıcı limiti aşıldı). Lütfen daha düşük kaliteli veya kırpılmış bir fotoğraf seç.");
-                }
-            };
-            // Seçilen dosyayı oku
-            reader.readAsDataURL(fileInput.files[0]);
-        } else {
-            // Eğer sadece şarkı değiştirildiyse
-            alert("Ayarlar kaydedildi!");
-            switchScreen('admin-section', 'login-section');
-        }
-    }
-
-    function switchScreen(hideId, showId) {
-        const hideEl = document.getElementById(hideId);
-        const showEl = document.getElementById(showId);
-        
-        hideEl.style.opacity = '0';
-        setTimeout(() => {
-            hideEl.style.visibility = 'hidden';
-            showEl.style.visibility = 'visible';
-            showEl.style.opacity = '1';
-        }, 800);
-    }
-
-    function handleEnter(e, context) {
+    function handleEnter(e) {
         if (e.key === 'Enter') {
-            if(context === 'login') checkKey();
+            checkKey();
         }
     }
 
